@@ -1,0 +1,48 @@
+<div class="app-wrapper">
+  <!-- Overlay de couleur venant du backend -->
+  <div class="background-overlay" [ngStyle]="{ 'background-color': backgroundColor + 'CC' }"></div>
+
+  <div class="content">
+    <h1>{{ title }}</h1>
+
+    <div class="controls">
+      <input
+        type="text"
+        placeholder="New todo..."
+        [(ngModel)]="newTodoName"
+        (keyup.enter)="createTodo()"
+      />
+      <button (click)="createTodo()">Create</button>
+    </div>
+
+    <div *ngIf="loading" class="info">
+      Loading todos...
+    </div>
+
+    <div *ngIf="errorMessage" class="error">
+      {{ errorMessage }}
+    </div>
+
+    <div
+      cdkDropList
+      [cdkDropListData]="todos"
+      class="todo-list"
+      (cdkDropListDropped)="drop($event)"
+    >
+      <div
+        class="todo-card"
+        *ngFor="let todo of todos"
+        cdkDrag
+        cdkDragLockAxis="y"
+      >
+        <div class="todo-main">
+          <span class="todo-text">{{ todo.name }}</span>
+        </div>
+
+        <button class="delete-btn" (click)="deleteTodo(todo)">
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
